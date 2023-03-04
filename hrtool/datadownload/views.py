@@ -1,4 +1,6 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .forms import UploadFileForm
 from openpyxl import load_workbook
@@ -13,7 +15,7 @@ def download_view(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             data = pd.read_excel(request.FILES['file'])
-            return redirect('handle')
+            return HttpResponseRedirect(reverse('handle', args=data.all()))
     else:
         form = UploadFileForm()
 
