@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('main.urls')),
     path('datadownload/', include('datadownload.urls')),
     path('authentication/', include('authentication.urls')),
+    path('data/', include('datahandle.urls')),
 ]
