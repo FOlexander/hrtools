@@ -13,6 +13,7 @@ def download_view(request):
         if form.is_valid():
             file = request.FILES['file']
             data = pd.read_excel(file)
+            # print(data)
             surcalc.dataStructure(data)#оновлюэмо файл
             # print(data)
             return redirect('index')
