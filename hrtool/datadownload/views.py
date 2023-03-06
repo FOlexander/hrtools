@@ -14,7 +14,8 @@ def download_view(request):
             file = request.FILES['file']
             data = pd.read_excel(file)
             # print(data)
-            surcalc.dataStructure(data)#оновлюэмо файл
+            filename = request.user.username
+            surcalc.dataStructure(data, filename)  # оновлюэмо файл
             # print(data)
             return redirect('index')
     else:
