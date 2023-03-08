@@ -16,9 +16,9 @@ def download_view(request):
             # print(data)
             filename = request.user.username
             user = request.user
-            surcalc.dataStructure(data, filename, user)  # оновлюэмо файл
+            chartdata = surcalc.dataStructure(data, filename, user)
             # print(data)
-            return redirect('index')
+            return render(request, 'chart.html', chartdata)
     else:
         form = UploadFileForm()
 

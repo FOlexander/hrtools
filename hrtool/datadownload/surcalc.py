@@ -2,9 +2,7 @@ import math
 import pandas as pd
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
-from django.contrib.auth.models import User
 from lifelines import KaplanMeierFitter
-from lifelines import NelsonAalenFitter
 from lifelines.statistics import logrank_test
 
 from .models import PlotFile
@@ -85,7 +83,7 @@ def KaplanMeier(df, filename, user):
         # "25Survival": kmf.percentile(p="0.75")
     }
 
-    # return data
+    return data
 
     # возвращаем какой процент сотрудников увольняется в первіе 3,6,12 месяцев работы
     # print(1-kmf.survival_function_at_times(3.0).iloc[0])#коммулятивній риск увольнения в первіе 3 месяца
