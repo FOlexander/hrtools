@@ -2,17 +2,20 @@ import math
 import pandas as pd
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
+from django.contrib.auth.models import User
 from lifelines import KaplanMeierFitter
 from lifelines import NelsonAalenFitter
 from lifelines.statistics import logrank_test
 
-plt.switch_backend(
-    'agg')  # https://stackoverflow.com/questions/52839758/matplotlib-and-runtimeerror-main-thread-is-not-in-main-loop
+from .models import PlotFile
+
+plt.switch_backend('agg')  # https://stackoverflow.com/questions/52839758/matplotlib-and-runtimeerror-main-thread-is-not-in-main-loop
 
 
-def dataStructure(data, filename):
+def dataStructure(data, filename, user):
     df = data
     filename = filename
+    user = user
     x = datetime.today()
     df['Event'] = 1
     df.loc[df['LastDay'].isna(), 'Event'] = 0
@@ -21,10 +24,10 @@ def dataStructure(data, filename):
     pd.to_numeric(df['WorkTimeM'])  # convert everything to float values
     if len(df.columns) == 4:
         print("KaplanMeier")
-        return KaplanMeier(df, filename)
+        return KaplanMeier(df, filename, user)
     elif len(df.columns) == 5:
         print("LogRank")
-        # return LogRank(df)
+        return LogRank(df, filename, user)
     elif len(df.columns) > 5:
         pass
         print("Sorry you add to many parameters if you want to make such research please contact us")
@@ -33,7 +36,7 @@ def dataStructure(data, filename):
     print("Hi from dataStructure")
 
 
-def KaplanMeier(df, filename):
+def KaplanMeier(df, filename,user):
     df = df
 
     print("Hi from KM")
@@ -46,7 +49,7 @@ def KaplanMeier(df, filename):
 
     px = 1 / plt.rcParams['figure.dpi']
     kmf.plot(color="#2E9FDF", figsize=(854 * px, 480 * px), ci_show=False)
-    chartname = f"{filename}"
+    chartname = f"uploads/{filename}"
 
     plt.grid(alpha=0.3)  # сетка и ее прозрачность
     plt.xlabel('Months')
@@ -62,11 +65,11 @@ def KaplanMeier(df, filename):
     plt.savefig(chartname, dpi=150)
     plt.close()
     # plotadress = '/'.join(chartname.split('\\')[-2:])
-    plotadress = f"media/{filename}"
-
-    # print('plotadress', plotadress, '\\n', 'chartname', chartname)
-    # p = Plot(title='Beatles Blog', plot=plotadress)
-    # p.save()
+    plotadress = f"uploads/{filename}.png"
+    print(user.pk)
+    p = PlotFile(plot=plotadress, plot_user=user)
+    p.save()
+    print('Hi after plot save')
     Hazard3m = (1 - kmf.survival_function_at_times(3.0).iloc[0]) * 100
     Hazard6m = (1 - kmf.survival_function_at_times(6.0).iloc[0]) * 100
     Hazard12m = (1 - kmf.survival_function_at_times(12.0).iloc[0]) * 100
@@ -82,7 +85,7 @@ def KaplanMeier(df, filename):
         # "25Survival": kmf.percentile(p="0.75")
     }
 
-    return data
+    # return data
 
     # возвращаем какой процент сотрудников увольняется в первіе 3,6,12 месяцев работы
     # print(1-kmf.survival_function_at_times(3.0).iloc[0])#коммулятивній риск увольнения в первіе 3 месяца
