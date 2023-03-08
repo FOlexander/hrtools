@@ -6,8 +6,9 @@ import pandas as pd
 from . import surcalc
 
 
+
 # Create your views here.
-def download_view(request):
+def download_view(request, chart_type):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -16,9 +17,12 @@ def download_view(request):
             # print(data)
             filename = request.user.username
             user = request.user
-            chartdata = surcalc.dataStructure(data, filename, user)
-            # print(data)
-            return render(request, 'chart.html', chartdata)
+            if chart_type == 'survival':
+                chartdata = surcalc.dataStructure(data, filename, user)
+                return render(request, 'chart.html', chartdata)
+            elif chart_type == 'control':
+                chartdata = surcalc.dataStructure(data, filename, user)
+                return render(request, 'chart.html', chartdata)
     else:
         form = UploadFileForm()
 
