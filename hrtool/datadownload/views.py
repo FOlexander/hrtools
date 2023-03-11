@@ -5,11 +5,11 @@ from django.contrib.auth.decorators import login_required
 from .forms import UploadFileForm
 from openpyxl import load_workbook
 import pandas as pd
-from . import surcalc
-
+from . import surcalc, contcalc
 
 
 # Create your views here.
+@login_required
 def download_view(request, chart_type):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
@@ -23,7 +23,8 @@ def download_view(request, chart_type):
                 chartdata = surcalc.dataStructure(data, filename, user)
                 return render(request, 'chart.html', chartdata)
             elif chart_type == 'control':
-                chartdata = surcalc.dataStructure(data, filename, user)
+                columname = data.columns[0]
+                chartdata = contcalc.read_file(data, filename, user, columname)
                 return render(request, 'chart.html', chartdata)
     else:
         form = UploadFileForm()
