@@ -65,7 +65,7 @@ def KaplanMeier(df, filename, user):
     # plotadress = '/'.join(chartname.split('\\')[-2:])
     plotadress = f"uploads/{filename}.png"
     print(user.pk)
-    p = PlotFile(plot=plotadress, plot_user=user)
+    p = PlotFile(plot=f'../{plotadress}', plot_user=user)
     p.save()
     print('Hi after plot save')
     Hazard3m = (1 - kmf.survival_function_at_times(3.0).iloc[0]) * 100
@@ -78,7 +78,7 @@ def KaplanMeier(df, filename, user):
         "Hazard6m": "{:.1f}".format(Hazard6m),
         "Hazard12m": "{:.1f}".format(Hazard12m),
         "AvarageSurvival": math.ceil(a[0]),
-        "chart": plotadress
+        "chart": p.plot
         # "75Survival": kmf.percentile(p="0.25"),
         # "25Survival": kmf.percentile(p="0.75")
     }
@@ -143,7 +143,7 @@ def LogRank(df, filename, user):
     # plotadress = '/'.join(chartname.split('\\')[-2:])
     plotadress = f"uploads/{filename}.png"
     print(user.pk)
-    p = PlotFile(plot=plotadress, plot_user=user)
+    p = PlotFile(plot=f'../{plotadress}', plot_user=user)
     p.save()
     # logrank_test:
     # Define variables :
@@ -184,7 +184,7 @@ def LogRank(df, filename, user):
         "AvarageSurvivalnb": "{:.0f}".format(nba[0]),
         # "75Survivalnb": kmf_nb.percentile(p="0.25"),
         # "25Survivalnb": kmf_nb.percentile(p="0.75")
-        "chart": plotadress
+        "chart": p.plot
     }
 
     return data

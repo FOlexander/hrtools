@@ -9,5 +9,5 @@ class UploadedFile(models.Model):
 
 
 class PlotFile(models.Model):
-    plot = models.ImageField('PlotFile', upload_to='uploads/', null=True)
+    plot = models.ImageField(upload_to='uploads/', null=True)
     plot_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

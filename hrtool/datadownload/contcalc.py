@@ -14,7 +14,7 @@ def read_file(data, filename, user, columname):
     df['date'] = pd.to_datetime(data[columname])
     counted_c = Counter(df['date'].dt.month)
     x = sorted(dict(counted_c, ).items())
-    build_plot(x, filename, user)
+    return build_plot(x, filename, user)
 
 
 def build_plot(x, filename, user):
@@ -24,15 +24,15 @@ def build_plot(x, filename, user):
     s = controlchart.Spc(count_month, controlchart.CHART_X_MR_X)
     b = s.get_chart(title='Control Chart')
 
-    plotadress = f"{filename}.png"
-    b.get_figure().savefig(plotadress)
-    p = PlotFile(plot=plotadress, plot_user=user)
+    plotadress = f"{filename}_control.png"
+    b.get_figure().savefig(f'uploads/{plotadress}')
+    p = PlotFile(plot=f'../uploads/{plotadress}', plot_user=user)
     p.save()
 
     data = {
-        "chart": plotadress
+        "chart": p.plot
     }
-
+    print('Hi from contcalc', data.get('chart'))
     return data
 
 
