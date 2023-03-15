@@ -3,11 +3,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .forms import UploadFileForm
-from openpyxl import load_workbook
 import secrets
 import pandas as pd
 from . import surcalc, contcalc
-from .models import PlotFile
+
 
 
 
@@ -29,7 +28,6 @@ def download_view(request, chart_type):
             elif chart_type == 'control':
                 columname = data.columns[0]
                 chartdata = contcalc.read_file(data, filename, user, columname)
-                print('Hi from view', chartdata)
                 return render(request, 'chart.html', chartdata)
     else:
         form = UploadFileForm()

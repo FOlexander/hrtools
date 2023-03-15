@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'main',
     'datadownload',
     'authentication',
-    'datahandle',
-    'chartshow'
+    'chartshow',
+    'useraccount',
+
 ]
 
 MIDDLEWARE = [
