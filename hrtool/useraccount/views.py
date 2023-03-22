@@ -8,7 +8,8 @@ from .models import PlotFile
 # Create your views here.
 @login_required
 def user_page(request):
-    plot = PlotFile.objects.get(plot_user=request.user)
-    print(plot)
+    # plot = PlotFile.objects.get(plot_user=request.user)
+    print(PlotFile.objects.get(plot_user=request.user))
+    # data = {'plot':plot.plot}
     return render(request, 'account.html')
 

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import statistics as stats
 import controlchart
 
-from .models import PlotFile
+from .models import ControlPlotFile
 
 
 def read_file(data, filename, user, columname):
@@ -26,7 +26,7 @@ def build_plot(x, filename, user):
 
     plotadress = f"{filename}_control.png"
     b.get_figure().savefig(f'uploads/{plotadress}')
-    p = PlotFile(plot=f'../uploads/{plotadress}', plot_user=user)
+    p = ControlPlotFile(plot=f'../uploads/{plotadress}', plot_user=user)
     p.save()
 
     data = {
