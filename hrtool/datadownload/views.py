@@ -18,7 +18,7 @@ def download_view(request, chart_type):
         if form.is_valid():
             file = request.FILES['file']
             data = pd.read_excel(file)
-            # print(data)
+            print(data)
             random_string = secrets.token_hex(4)
             filename = f'{request.user.username}_{random_string}'
             user = request.user
