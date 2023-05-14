@@ -8880,8 +8880,7 @@ h1, h2, h3, h4, h5,
         display: none; } }
 
 .form-control {
-  height: 52px !important;
-  background: #fff !important;
+  /*background: #fff !important;*/
   color: #000 !important;
   font-size: 18px;
   border-radius: 0px;
@@ -9304,7 +9303,7 @@ textarea.form-control {
         margin-bottom: 5px; } }
   .ftco-section .tab-content .tab-pane h2 {
     font-size: 24px;
-    font-weight: 700; }
+    }
   .ftco-section .tab-content .tab-pane .one-forth {
     width: 50%; }
     @media (max-width: 767.98px) {

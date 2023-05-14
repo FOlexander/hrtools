@@ -52,7 +52,7 @@ function init() {
             new google.maps.Marker({
                 position: latlng,
                 map: map,
-                icon: 'static/images//loc.png'
+                icon: '{% static 'images//loc.png'
             });
 
         });
