@@ -9941,6 +9941,10 @@ textarea.form-control {
   .categories li.active a, .sidelink li.active a {
     color: #000;
     font-style: italic; }
+.errorlist {
+ list-style-type: none;
+ color: red;
+}
 
 #ftco-loader {
   position: fixed;
@@ -10032,3 +10036,4 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+

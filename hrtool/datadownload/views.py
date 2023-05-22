@@ -37,4 +37,4 @@ def download_view(request, chart_type):
     else:
         form = UploadFileForm()
 
-    return render(request, 'dl.html', {'form': form})
+    return render(request, 'dl.html', {'form': form, 'type_c':chart_type})

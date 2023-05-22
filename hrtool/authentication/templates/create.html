@@ -3,9 +3,6 @@
 
 
 {% block content %}
-    {{ message }}
-
-
   <div class="content">
     <div class="container">
       <div class="row">
@@ -20,24 +17,25 @@
               <!-- <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p> -->
             </div>
             <form action="{% url 'create' %}" method="post">
-            {% if form.errors %}
-                <p style="color:red">{{ form.errors }}</p>
-            {% endif %}
+            {{ form.non_field_errors }}
+            {% for field, error in form.errors.items %}
+                {{ error }}
+            {% endfor %}
             {% csrf_token %}
               <div class="form-group first mb-4">
-<!--                <p for="username">Username</p>-->
+                <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" name="username"  maxlength="10"required>
               </div>
                 <div class="form-group first mb-4">
                 <label for="username">Mail</label>
-                <input type="email" class="form-control" id="username" name="mail"  required>
+                <input type="email" class="form-control" id="username" name="email"  required>
               </div>
               <div class="form-group last mb-4">
-<!--                <p for="password">Password</p>-->
+                <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password1" required>
               </div>
                 <div class="form-group last mb-4">
-<!--                <p for="password">Password</p>-->
+                <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password2" required>
               </div>
 

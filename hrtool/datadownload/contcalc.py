@@ -18,12 +18,10 @@ def read_file(data, filename, user, columname):
 
 
 def build_plot(x, filename, user):
-    count_month = []
-    for i in x:
-        count_month.append(i[1])
+    count_month = [i[1] for i in x]
+
     s = controlchart.Spc(count_month, controlchart.CHART_X_MR_X)
     b = s.get_chart(title='Control Chart')
-
     plotadress = f"{filename}_control.png"
     b.get_figure().savefig(f'uploads/{plotadress}')
     p = ControlPlotFile(plot=f'../uploads/{plotadress}', plot_user=user)

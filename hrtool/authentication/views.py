@@ -30,6 +30,8 @@ def my_create_user(request):
             # Log the user in
             login(request, user)
             return redirect('index')
+        else:
+            print(form.errors)
     else:
         form = UserCreationForm()
     return render(request, 'create.html', {'form': form})
