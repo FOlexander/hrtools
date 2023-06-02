@@ -46,7 +46,7 @@
 <!--	          <li class="nav-item"><a href="#why" class="nav-link">WHY</a></li>-->
 <!--	          <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>-->
 	          <li class="nav-item"><a class="nav-link" href="{% url 'surv' %}">Survival Analytics</a></li>
-	          <li class="nav-item"><a href="{% url 'cchart' %}" class="nav-link">Control Chart</a></li>
+<!--	          <li class="nav-item"><a href="{% url 'cchart' %}" class="nav-link">Control Chart</a></li>-->
 <!--	          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>-->
             {% if user.is_authenticated %}
                 <li class="nav-item cta"><a href="blog.html" class="nav-link">{{ user|title }}</a></li>
@@ -191,7 +191,7 @@
 		              <div class="mt-3 media-body media-body-2">
 		                <h3 class="heading">Survival Analysis</h3>
 		                <p>Helps you identify the factors that influence employee retention and make data-driven decisions to improve your organization's workforce planning and talent management strategies</p>
-                        <a href="{% url 'dload' chart_type='survival'  %}" class="btn btn-primary d-block px-3 py-3 mb-4">Receive report for your company</a>
+                        <a href="{% url 'surv' %}" class="btn btn-primary d-block px-3 py-3 mb-4">Receive report for your company</a>
 		              </div>
 		            </div>
     					</div>
@@ -205,7 +205,7 @@
 		              <div class="mt-3 media-body media-body-2">
 		                <h3 class="heading">Control chart</h3>
 		                <p>Helps you identify patterns and trends in employee turnover, empowering you to take proactive steps to reduce turnover rates and retain top talent in your organization.</p>
-                        <a href="{% url 'dload' chart_type='survival'  %}" class="btn btn-primary d-block px-3 py-3 mb-4">Receive report for your company</a>
+                        <a href="" class="btn btn-secondary d-block px-3 py-3 mb-4">Under construction</a>
 		              </div>
 		            </div>
     					</div>

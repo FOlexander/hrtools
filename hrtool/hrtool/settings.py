@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-+w11%#p51ol=!f2h0j%s^%55bjpi(nxy^xi=ilk=c&8wnf!m@_
 DEBUG = True
 
 ALLOWED_HOSTS = []
-LOGIN_URL = '/authentication/login/'
+LOGIN_URL = '/accounts/login/'
 
 # Application definition
 
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'datadownload',
-    'authentication',
+    'accounts',
     'chartshow',
     'useraccount',
 
