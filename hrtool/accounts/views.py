@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib import messages
 from .forms import UserCreationForm, PasswordResetForm
 from django.db.models.query_utils import Q
 from django.template.loader import render_to_string
@@ -19,7 +20,7 @@ def my_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('dload')
+            return redirect('index')
         else:
             return render(request, 'login.html', {'error_message': 'Invalid login credentials.'})
     else:
