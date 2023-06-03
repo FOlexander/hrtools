@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -26,13 +27,18 @@ def download_view(request):
             filename = f'{request.user.username}_{random_string}'
             user = request.user
             # if chart_type == 'survival':
-            chartdata = surcalc.dataStructure(data, filename, user)
-            return render(request, 'chart_surv.html', chartdata)
+            try:
+                chartdata = surcalc.dataStructure(data, filename, user)
+            except Exception:
+                messages.error(request, 'Please check accuracy of your data. Download example template below to create correct .xlsx file')
+                return render(request, 'dl.html', {'form': form})
+            else:
+                return render(request, 'chart_surv.html', chartdata)
             # elif chart_type == 'control':
             #     columname = data.columns[0]
             #     chartdata = contcalc.read_file(data, filename, user, columname)
             #     return render(request, 'chart_surv.html', chartdata)
-        else:
+        else :
             print(form.errors)
     else:
         form = UploadFileForm()

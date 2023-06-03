@@ -1,5 +1,6 @@
 import math
 import pandas as pd
+import numpy as np
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from lifelines import KaplanMeierFitter
@@ -11,6 +12,7 @@ plt.switch_backend('agg')  # https://stackoverflow.com/questions/52839758/matplo
 
 
 def dataStructure(data, filename, user):
+    print(data)
     df = data
     filename = filename
     user = user
@@ -35,20 +37,14 @@ def dataStructure(data, filename, user):
 
 
 def KaplanMeier(df, filename, user):
+
     df = df
-
-    print("Hi from KM")
-
     kmf = KaplanMeierFitter()
-
     kmf.fit(durations=df['WorkTimeM'], event_observed=df['Event'], label='Median Survival Time')
-
     a = [kmf.median_survival_time_]
-
     px = 1 / plt.rcParams['figure.dpi']
     kmf.plot(color="#2E9FDF", figsize=(854 * px, 480 * px), ci_show=False)
     chartname = f"uploads/{filename}"
-
     plt.grid(alpha=0.3)  # сетка и ее прозрачность
     plt.xlabel('Months')
     plt.ylabel('Survival')
@@ -71,13 +67,17 @@ def KaplanMeier(df, filename, user):
     Hazard3m = (1 - kmf.survival_function_at_times(3.0).iloc[0]) * 100
     Hazard6m = (1 - kmf.survival_function_at_times(6.0).iloc[0]) * 100
     Hazard12m = (1 - kmf.survival_function_at_times(12.0).iloc[0]) * 100
-
+    print(type(a[0]), a[0])
+    if a[0] == np.inf:
+        AvarageSurvival = 'Data non reach median survival time'
+    else:
+        AvarageSurvival = math.ceil(a[0])
     data = {
         "Name": "KMF",
         "Hazard3m": "{:.1f}".format(Hazard3m),
         "Hazard6m": "{:.1f}".format(Hazard6m),
         "Hazard12m": "{:.1f}".format(Hazard12m),
-        "AvarageSurvival": math.ceil(a[0]),
+        "AvarageSurvival": AvarageSurvival,
         "chart": p.plot
         # "75Survival": kmf.percentile(p="0.25"),
         # "25Survival": kmf.percentile(p="0.75")
