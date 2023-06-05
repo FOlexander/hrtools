@@ -17,11 +17,14 @@ def dataStructure(data, filename, user):
     filename = filename
     user = user
     x = datetime.today()
-    df['Event'] = 1
-    df.loc[df['LastDay'].isna(), 'Event'] = 0
-    df.loc[df['LastDay'].isna(), 'LastDay'] = x
-    df['WorkTimeM'] = (df['LastDay'] - df['StartDay']).astype('timedelta64[D]') / (365.25 / 12)
-    pd.to_numeric(df['WorkTimeM'])  # convert everything to float values
+    try:
+        df['Event'] = 1
+        df.loc[df['LastDay'].isna(), 'Event'] = 0
+        df.loc[df['LastDay'].isna(), 'LastDay'] = x
+        df['WorkTimeM'] = (df['LastDay'] - df['StartDay']).astype('timedelta64[D]') / (365.25 / 12)
+        pd.to_numeric(df['WorkTimeM'])  # convert everything to float values
+    except Exception as er:
+        print(er)
     if len(df.columns) == 4:
         print("KaplanMeier")
         return KaplanMeier(df, filename, user)
@@ -67,7 +70,6 @@ def KaplanMeier(df, filename, user):
     Hazard3m = (1 - kmf.survival_function_at_times(3.0).iloc[0]) * 100
     Hazard6m = (1 - kmf.survival_function_at_times(6.0).iloc[0]) * 100
     Hazard12m = (1 - kmf.survival_function_at_times(12.0).iloc[0]) * 100
-    print(type(a[0]), a[0])
     if a[0] == np.inf:
         AvarageSurvival = 'Data non reach median survival time'
     else:
