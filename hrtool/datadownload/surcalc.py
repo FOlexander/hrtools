@@ -14,17 +14,17 @@ plt.switch_backend('agg')  # https://stackoverflow.com/questions/52839758/matplo
 def dataStructure(data, filename, user):
     print(data)
     df = data
+
     filename = filename
     user = user
     x = datetime.today()
-    try:
-        df['Event'] = 1
-        df.loc[df['LastDay'].isna(), 'Event'] = 0
-        df.loc[df['LastDay'].isna(), 'LastDay'] = x
-        df['WorkTimeM'] = (df['LastDay'] - df['StartDay']).astype('timedelta64[D]') / (365.25 / 12)
-        pd.to_numeric(df['WorkTimeM'])  # convert everything to float values
-    except Exception as er:
-        print(er)
+    df['StartDay'] = pd.to_datetime(df['StartDay'])
+    df['LastDay'] = pd.to_datetime(df['LastDay'])
+    df['Event'] = 1
+    df.loc[df['LastDay'].isna(), 'Event'] = 0
+    df.loc[df['LastDay'].isna(), 'LastDay'] = x
+    df['WorkTimeM'] = (df['LastDay'] - df['StartDay']).astype('timedelta64[D]') / (365.25 / 12)
+    pd.to_numeric(df['WorkTimeM'])  # convert everything to float values
     if len(df.columns) == 4:
         print("KaplanMeier")
         return KaplanMeier(df, filename, user)
