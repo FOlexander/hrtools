@@ -9,6 +9,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 
+from .models import CustomUser
 from .tokens import account_activation_token
 from .decorators import user_not_authenticated
 
@@ -36,7 +37,13 @@ def my_create_user(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
+            # form.term_of_use_privasy_ploicy = request.POST.get('term_of_use_privasy_ploicy', False) == "true"
+            print(request.POST)
+            print(request)
+            # print(form.POST.get('term_of_use_privasy_ploicy'))
             user = form.save()
+            # pol_confirmation = request.POST.get('term_of_use_privasy_ploicy')
+            print(form)
             # Log the user in
             login(request, user)
             return redirect('index')

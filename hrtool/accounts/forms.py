@@ -9,7 +9,7 @@ User = get_user_model()
 class UserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'password1', 'password2', 'term_of_use_privasy_ploicy')
 
 class PasswordResetForm(PasswordResetForm):
     def __init__(self, *args, **kwargs):
