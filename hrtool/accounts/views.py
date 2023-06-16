@@ -13,17 +13,27 @@ from .models import CustomUser
 from .tokens import account_activation_token
 from .decorators import user_not_authenticated
 
+next_page = ''
 
 def my_login(request):
+    # try:
+    #     next_page = request.GET['next']
+    #     print(next_page)
+    # except BaseException:
+    #     next_page = '-------------next_page------------------'
     if request.method == 'POST':
+        print(next_page)
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('index')
+            if request.META.get('HTTP_REFERER').split('/')[-2] == 'datadownload':
+                return redirect('dload')
+            else:
+                return redirect('index')
         else:
-            return render(request, 'login.html', {'error_message': 'Invalid login credentials.'})
+            return render(request, 'login.html', {'error_message': 'Invalid login or password.'})
     else:
         return render(request, 'login.html')
 
@@ -37,12 +47,7 @@ def my_create_user(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            # form.term_of_use_privasy_ploicy = request.POST.get('term_of_use_privasy_ploicy', False) == "true"
-            print(request.POST)
-            print(request)
-            # print(form.POST.get('term_of_use_privasy_ploicy'))
             user = form.save()
-            # pol_confirmation = request.POST.get('term_of_use_privasy_ploicy')
             print(form)
             # Log the user in
             login(request, user)
