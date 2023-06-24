@@ -29,7 +29,8 @@ def download_view(request):
             # if chart_type == 'survival':
             try:
                 chartdata = surcalc.dataStructure(data, filename, user)
-            except Exception:
+            except Exception as es:
+                print(es)
                 messages.error(request, 'Please check accuracy of your data. Download example template below to create correct .xlsx file')
                 return render(request, 'dl.html', {'form': form})
             else:

@@ -8,11 +8,12 @@ from lifelines.statistics import logrank_test
 
 from .models import PlotFile
 
-plt.switch_backend('agg')  # https://stackoverflow.com/questions/52839758/matplotlib-and-runtimeerror-main-thread-is-not-in-main-loop
+plt.switch_backend(
+    'agg')  # https://stackoverflow.com/questions/52839758/matplotlib-and-runtimeerror-main-thread-is-not-in-main-loop
 
 
 def dataStructure(data, filename, user):
-    print(data)
+    # print(data)
     df = data
 
     filename = filename
@@ -23,7 +24,7 @@ def dataStructure(data, filename, user):
     df['Event'] = 1
     df.loc[df['LastDay'].isna(), 'Event'] = 0
     df.loc[df['LastDay'].isna(), 'LastDay'] = x
-    df['WorkTimeM'] = (df['LastDay'] - df['StartDay']).astype('timedelta64[D]') / (365.25 / 12)
+    df['WorkTimeM'] = (df['LastDay'] - df['StartDay']).astype('timedelta64[ns]').dt.days / (365.25 / 12)
     pd.to_numeric(df['WorkTimeM'])  # convert everything to float values
     if len(df.columns) == 4:
         print("KaplanMeier")
@@ -40,7 +41,6 @@ def dataStructure(data, filename, user):
 
 
 def KaplanMeier(df, filename, user):
-
     df = df
     kmf = KaplanMeierFitter()
     kmf.fit(durations=df['WorkTimeM'], event_observed=df['Event'], label='Median Survival Time')
@@ -63,10 +63,7 @@ def KaplanMeier(df, filename, user):
     plt.close()
     # plotadress = '/'.join(chartname.split('\\')[-2:])
     plotadress = f"uploads/{filename}.png"
-    print(user.pk)
-    p = PlotFile(plot=f'../{plotadress}', plot_user=user)
-    p.save()
-    print('Hi after plot save')
+    # print(user.pk)
     Hazard3m = (1 - kmf.survival_function_at_times(3.0).iloc[0]) * 100
     Hazard6m = (1 - kmf.survival_function_at_times(6.0).iloc[0]) * 100
     Hazard12m = (1 - kmf.survival_function_at_times(12.0).iloc[0]) * 100
@@ -74,6 +71,16 @@ def KaplanMeier(df, filename, user):
         AvarageSurvival = 'Data non reach median survival time'
     else:
         AvarageSurvival = math.ceil(a[0])
+    p = PlotFile()
+    p.plot = f'../{plotadress}'
+    p.plot_user = user
+    p.plot_hazard3m = Hazard3m
+    p.plot_hazard6m = Hazard6m
+    p.plot_hazard12m = Hazard12m
+    p.plot_avr_surv = AvarageSurvival
+    p.plot_name = 'KMF'
+    p.save()
+    print('Hi after plot save')
     data = {
         "Name": "KMF",
         "Hazard3m": "{:.1f}".format(Hazard3m),
