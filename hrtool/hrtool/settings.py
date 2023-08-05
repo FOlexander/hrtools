@@ -141,4 +141,6 @@ PASSWORD_RESET_TIMEOUT = 14400
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = False # need to be changed to True after adding SSL
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
